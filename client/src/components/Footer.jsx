@@ -61,7 +61,7 @@ const Footer = () => {
 
 
 
-        {/* //dwsktop screen */}
+        {/* //desktop screen */}
 
 
 

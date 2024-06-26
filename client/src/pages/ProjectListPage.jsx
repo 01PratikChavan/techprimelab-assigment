@@ -137,11 +137,11 @@ const ProjectListPage = () => {
           />
           <SearchOutlinedIcon className="sm:absolute bottom-1" />
           <button className="mr-2">sort by</button>
-          <button onClick={() => setSortOption('priority')}>Priority</button>
+          {/* <button onClick={() => setSortOption('priority')}>Priority</button>
           <button onClick={() => setSortOption('updatedAt')}>Recently Modified</button>
           <button onClick={() => setSortOption('status')}>Status</button>
           <button onClick={() => setSortOption('startDate')}>Start Date</button>
-          <button onClick={() => setSortOption('endDate')}>End Date</button>
+          <button onClick={() => setSortOption('endDate')}>End Date</button> */}
         </div>
 
         <ProjectsTable projects={filteredProjects} onStatusChange={handleStatusChange} />
