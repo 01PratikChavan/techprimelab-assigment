@@ -15,10 +15,10 @@ const app = express();
 app.use(cors({
     origin: true,
     credentials: true
-  }));
+}));
 
 dotenv.config();
-const PORT = process.env.PORT  ;
+const PORT = process.env.PORT;
 console.log(process.env.PORT);
 
 
@@ -35,16 +35,16 @@ app.use(morgan('dev'))
 app.use(express.json())
 
 
-app.use('/auth/',authRoutes);
-app.use('/project',projectRoutes);
+app.use('/auth/', authRoutes);
+app.use('/project', projectRoutes);
 
 //rest api
-app.get('/',(req,res)=>{
-    res.send({message:'Welcome'})
+app.get('/', (req, res) => {
+    res.send({ message: 'Welcome' })
 })
 
 //port  
-app.listen(PORT,()=>{
-    console.log('Server running on' ,PORT)
-})     
+app.listen(PORT, () => {
+    console.log('Server running on', PORT)
+})
 //routes

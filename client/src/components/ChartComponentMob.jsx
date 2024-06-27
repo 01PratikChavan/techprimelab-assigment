@@ -1,6 +1,5 @@
-
-import { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, LabelList } from 'recharts';
+import { useEffect, useState } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, LabelList } from "recharts";
 
 // const data = [
 //   { name: 'STR', Total: 19, Closed: 14, Percentage: '91%' },
@@ -24,13 +23,16 @@ const CustomLabel = ({ x, y, width, value }) => (
 );
 
 const XAxisTick = ({ x, y, payload }) => {
-  // const entry = data.find(d => d.name === payload.value);
   return (
     <g transform={`translate(${x},${y})`}>
-      {/* <text x={0} y={10} dy={16} textAnchor="middle" fill="#000" fontWeight="bold">
-        {entry.Percentage}
-      </text> */}
-      <text x={0} y={30} dy={16} textAnchor="middle" fill="#000">
+      <text
+        x={0}
+        y={30}
+        dy={16}
+        className="text-sm"
+        textAnchor="middle"
+        fill="#000"
+      >
         {payload.value}
       </text>
     </g>
@@ -38,14 +40,21 @@ const XAxisTick = ({ x, y, payload }) => {
 };
 
 const renderLegend = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', marginTop: -20 }}>
-    <div style={{ display: 'flex', alignItems: 'center', marginRight: 20 }}>
+  <div
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      marginTop: -20,
+      marginBottom: "4px",
+    }}
+  >
+    <div style={{ display: "flex", alignItems: "center", marginRight: 20 }}>
       <svg width="10" height="10">
         <circle cx="6" cy="6" r="5" fill="#0044cc" />
       </svg>
       <span style={{ marginLeft: 5 }}>Total</span>
     </div>
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: "flex", alignItems: "center" }}>
       <svg width="10" height="10">
         <circle cx="5" cy="5" r="5" fill="#66cc66" />
       </svg>
@@ -55,21 +64,20 @@ const renderLegend = () => (
 );
 
 const ChartComponent = () => {
-
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/project/departmentCount');
+        const response = await fetch("/api/project/departmentCount");
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         const result = await response.json();
-       
-        const formattedData = result.data.map(item => ({
+
+        const formattedData = result.data.map((item) => ({
           name: item._id,
           Total: item.totalProjects,
           Closed: item.closedProjects,
@@ -77,7 +85,7 @@ const ChartComponent = () => {
         // console.log(formattedData);
         setData(formattedData);
       } catch (err) {
-        console.error('Error fetching data:', err);
+        console.error("Error fetching data:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -90,11 +98,10 @@ const ChartComponent = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-
   return (
-    <div className='ml-6 mt-[80px]' >
+    <div className="ml-1 ">
       <BarChart
-        width={600} // Decreased width
+        width={300} // Decreased width
         height={400} // Kept height same
         data={data}
         barSize={10}
@@ -103,7 +110,7 @@ const ChartComponent = () => {
         margin={{
           top: 40,
           right: 30,
-          left: 20,
+          left: 10,
           bottom: 70,
         }}
       >
@@ -113,7 +120,7 @@ const ChartComponent = () => {
         <Bar dataKey="Total" fill="#0847c7" transform="translate(0, -10)">
           <LabelList dataKey="Total" content={CustomLabel} />
         </Bar>
-        <Bar dataKey="Closed" fill="#46e146"  transform="translate(0, -10)">
+        <Bar dataKey="Closed" fill="#46e146" transform="translate(0, -10)">
           <LabelList dataKey="Closed" content={CustomLabel} />
         </Bar>
       </BarChart>
@@ -123,5 +130,3 @@ const ChartComponent = () => {
 };
 
 export default ChartComponent;
-
-

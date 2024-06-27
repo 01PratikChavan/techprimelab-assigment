@@ -2,16 +2,17 @@ import backArrow from "../assets/back_arrow.svg";
 import logoutIcon from "../assets/Logout.svg";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer.jsx";
-import logoIcon from '../assets/Logo.svg';
+import logoIcon from "../assets/Logo.svg";
 
 const Layout = (props) => {
   const navigate = useNavigate();
 
-  const handleLogout=()=>{
-    localStorage.removeItem('token');
-    navigate('/login');
-  }
+    
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
 
   return (
     <>
@@ -28,13 +29,19 @@ const Layout = (props) => {
               className="w-[11px] h-[22px] mr-2 ml-3 cursor-pointer z-101"
             />
           </div>
-          <h1 className="text-white text-2xl font-roboto font-semibold">{props.title}</h1>
+          <h1 className="text-white text-2xl font-roboto font-semibold">
+            {props.title}
+          </h1>
         </div>
 
-        <img src={logoIcon} alt="logo" className="hidden sm:flex h-14 w-fit self-center sm:absolute sm:left-1/2" />
+        <img
+          src={logoIcon}
+          alt="logo"
+          className="hidden sm:flex h-14 w-fit self-center sm:absolute sm:left-1/2"
+        />
 
         <img
-        onClick={handleLogout}
+          onClick={handleLogout}
           src={logoutIcon}
           alt="backArrow"
           className="sm:hidden cursor-pointer w-6 mr-6"

@@ -10,15 +10,15 @@ export const registerController = async (req, res) => {
     try {
 
         const { email, password } = req.body;
-        
-        if ( !email || !password) {
+
+        if (!email || !password) {
             return res.status(400).send({
                 success: false,
                 message: 'All fields are mandatory',
             })
         };
 
-        
+
         const exisitingUser = await userModel.findOne({ email });
         //exisiting user
         if (exisitingUser) {
@@ -31,10 +31,10 @@ export const registerController = async (req, res) => {
         //hash password
         const hashedPassword = await hashPassword(password);
         //save
-        const user = new userModel({  email, password: hashedPassword });
+        const user = new userModel({ email, password: hashedPassword });
         await user.save();
 
-        
+
 
         res.status(201).send({
             success: true,
@@ -54,65 +54,65 @@ export const registerController = async (req, res) => {
     }
 }
 
-export const loginController=async(req,res)=>{
- 
- try{
+export const loginController = async (req, res) => {
 
-    const {email,password}=req.body;
-    if(!email || !password){
-        return res.status(400).send({
+    try {
+
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).send({
+                success: false,
+                message: 'All fields are mandatory',
+            })
+        }
+
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(401).send({
+                success: false,
+                message: 'Invalid email or password'
+            })
+        };
+
+        const checkPassword = await comparePassword(password, user.password);
+
+        if (!checkPassword) {
+            return res.status(401).send({
+                success: false,
+                message: 'Invalid email or password'
+            })
+        };
+
+        const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "7d"
+        });
+        res.status(200).send({
+            success: true,
+            message: 'Login Success',
+            user: {
+                email: user.email,
+            },
+            token,
+        })
+
+
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({
             success: false,
-            message: 'All fields are mandatory',
+            message: 'Internal Server Error',
+            error: err.message
         })
-    } 
+    }
 
-    const user = await userModel.findOne({email});
-
-    if(!user){
-        return res.status(401).send({
-            success:false,
-            message:'Invalid email or password'
-        })
-    } ;
-
-    const checkPassword = await comparePassword(password,user.password);
-     
-     if(!checkPassword){
-        return res.status(401).send({
-            success:false,
-            message:'Invalid email or password'
-        })
-     }  ;
- 
-     const token =  JWT.sign({_id:user._id}, process.env.JWT_SECRET , {
-        expiresIn:"7d"
-     } ) ;
-     res.status(200).send({
-        success:true,
-        message:'Login Success',
-        user:{
-            email:user.email,
-        },
-        token ,
-     })
-
-     
-
- }catch(err){
-    console.log(err);
-    res.status(500).send({
-        success:false,
-        message:'Internal Server Error',
-        error:err.message
-    })
- }
-     
 
 
 }
 
-export const testController=(req,res)=>{
+export const testController = (req, res) => {
     res.send('protected route')
 }
 
-export default { registerController ,loginController , testController };
+export default { registerController, loginController, testController };

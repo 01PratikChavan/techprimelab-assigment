@@ -5,6 +5,14 @@ export const reasonOptions = [
     { value: 'Transport', label: 'For Transport' },
   ];
 
+  export const projectManagerOptions=[
+    {
+      value:"Person 1",label:"Person 1"},
+      {value:"Person 2", label:"Perso 2"},
+     { value:"Person 3",label:"Person 3" }
+    
+  ]
+
   export const categoryOptions=[
     { value: 'Quality A', label:'Quality A'},
     { value: 'Quality B', label: 'Quality B' },
@@ -32,7 +40,7 @@ export const reasonOptions = [
     { value: 'Water Heater', label: 'Water Heater' },
   ]
   export const deapartMentOptions=[
-    { value: 'Startegy', label:'Startegy'},
+    { value: 'Strategy', label:'Startegy'},
     { value: 'Finance', label: 'Finance' },
     { value: 'Quality', label: 'Quality' },
     { value: 'Maintainance', label: 'Maintainance' },
@@ -52,6 +60,7 @@ export const reasonOptions = [
     priority: priorityOptions[0].value,
     department: deapartMentOptions[0].value,
     location: locationOptions[0].value,
+    Project_Manager:projectManagerOptions[0].value
   }
 
 //projects for demo

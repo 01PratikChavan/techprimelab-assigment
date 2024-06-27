@@ -1,87 +1,90 @@
-
-import { useMemo } from 'react';
-import { useTable, usePagination } from 'react-table';
+import { useMemo } from "react";
+import { useTable, usePagination } from "react-table";
 
 const ProjectsTable = ({ projects, onStatusChange }) => {
   const columns = useMemo(
     () => [
       {
-        Header: 'Project Name',
-        accessor: 'name',
+        Header: "Project Name",
+        accessor: "name",
         Cell: ({ row }) => (
           <div>
             <p className="font-semibold">{row.original.name}</p>
             <p className="text-gray-500">
-              {new Date(row.original.startDate).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-              })}{' '}
-              to{' '}
-              {new Date(row.original.endDate).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
+              {new Date(row.original.startDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}{" "}
+              to{" "}
+              {new Date(row.original.endDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
               })}
             </p>
           </div>
         ),
       },
       {
-        Header: 'Reason',
-        accessor: 'reason',
+        Header: "Reason",
+        accessor: "reason",
       },
       {
-        Header: 'Type',
-        accessor: 'type',
+        Header: "Type",
+        accessor: "type",
       },
       {
-        Header: 'Division',
-        accessor: 'division',
+        Header: "Division",
+        accessor: "division",
       },
       {
-        Header: 'Category',
-        accessor: 'category',
+        Header: "Category",
+        accessor: "category",
       },
       {
-        Header: 'Priority',
-        accessor: 'priority',
+        Header: "Priority",
+        accessor: "priority",
       },
       {
-        Header: 'Department',
-        accessor: 'department',
+        Header: "Department",
+        accessor: "department",
       },
       {
-        Header: 'Location',
-        accessor: 'location',
+        Header: "Location",
+        accessor: "location",
       },
       {
-        Header: 'Status',
-        accessor: 'status',
+        Header: "Project Manager",
+        accessor: "project_manager",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
         Cell: ({ row }) => (
           <span className="font-semibold">{row.original.status}</span>
         ),
       },
       {
-        Header: '',
-        id: 'actions',
+        Header: "",
+        id: "actions",
         Cell: ({ row }) => (
           <div className="flex gap-4 ml-3 justify-around">
             <button
               className="px-5 text-white text-sm bg-blue-600 rounded-3xl py-1"
-              onClick={() => onStatusChange(row.original._id, 'Running')}
+              onClick={() => onStatusChange(row.original._id, "Running")}
             >
               Start
             </button>
             <button
               className="px-5 text-blue-500 text-sm rounded-3xl bg-white border border-blue-500"
-              onClick={() => onStatusChange(row.original._id, 'Closed')}
+              onClick={() => onStatusChange(row.original._id, "Closed")}
             >
               Close
             </button>
             <button
               className="px-4 py-1 rounded-3xl text-blue-500 text-sm bg-white border border-blue-500"
-              onClick={() => onStatusChange(row.original._id, 'Cancelled')}
+              onClick={() => onStatusChange(row.original._id, "Cancelled")}
             >
               Cancel
             </button>
@@ -122,17 +125,14 @@ const ProjectsTable = ({ projects, onStatusChange }) => {
       >
         <thead className="bg-blue-100">
           {headerGroups.map((headerGroup) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              key={headerGroup.id}
-            >
+            <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
               {headerGroup.headers.map((column) => (
                 <th
                   {...column.getHeaderProps()}
                   key={column.id}
                   className="px-[21px] py-[8px] text-left text-[13px] text-md text-gray-800 tracking-wider"
                 >
-                  {column.render('Header')}
+                  {column.render("Header")}
                 </th>
               ))}
             </tr>
@@ -145,17 +145,14 @@ const ProjectsTable = ({ projects, onStatusChange }) => {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr
-                {...row.getRowProps()}
-                key={row.original.project_id}
-              >
+              <tr {...row.getRowProps()} key={row.original.project_id}>
                 {row.cells.map((cell) => (
                   <td
                     {...cell.getCellProps()}
                     key={cell.column.id}
                     className="px-[22px] py-[8px] whitespace-nowrap text-[15px] text-gray-900"
                   >
-                    {cell.render('Cell')}
+                    {cell.render("Cell")}
                   </td>
                 ))}
               </tr>
@@ -166,22 +163,22 @@ const ProjectsTable = ({ projects, onStatusChange }) => {
       {/* Pagination */}
       <div className="pagination mx-auto w-fit my-5">
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<<  <'}
-        </button>{' '}
+          {"<<  <"}
+        </button>{" "}
         {pageOptions.map((pageNum) => (
           <button
             key={pageNum}
             onClick={() => gotoPage(pageNum)}
             className={`px-2 py-[2px] rounded-full ${
-              pageNum === pageIndex ? 'bg-cyan-300 ' : ''
+              pageNum === pageIndex ? "bg-cyan-300 " : ""
             }`}
           >
             {pageNum + 1}
           </button>
         ))}
         <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'> >>'}
-        </button>{' '}
+          {"> >>"}
+        </button>{" "}
       </div>
     </div>
   );

@@ -33,6 +33,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    project_manager:{
+        type: String,
+        required: true,
+    },
     startDate: {
         type: Date,
         required: true,

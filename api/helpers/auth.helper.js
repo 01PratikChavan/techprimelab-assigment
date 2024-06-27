@@ -13,16 +13,16 @@ export const hashPassword = async (password) => {
 
 }
 
-export const comparePassword = async(password, hashedPassword) => {
+export const comparePassword = async (password, hashedPassword) => {
 
 
-    try{
-   return await bcrypt.compare(password,hashedPassword);
-    }catch(err){
+    try {
+        return await bcrypt.compare(password, hashedPassword);
+    } catch (err) {
         console.log(err);
     }
 
 }
 
 
-export default {hashPassword,comparePassword};
+export default { hashPassword, comparePassword };

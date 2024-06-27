@@ -9,6 +9,7 @@ import {
   priorityOptions,
   deapartMentOptions,
   locationOptions,
+  projectManagerOptions,
 } from "../utils/data";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -16,17 +17,16 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { TextField } from "@mui/material";
 
-import { initialFormValues } from "../utils/data";
+import { initialFormValues } from "../utils/data"; 
 
 export default function SelectLabels() {
-
-  const [dateError,setDateError]=useState(false);
+  const [dateError, setDateError] = useState(false);
 
   const [formValues, setFormValues] = useState({
     ...initialFormValues,
     startDate: null,
     endDate: null,
-    name: "",
+    name: ""
   });
 
   const handleDateChange = (name, date) => {
@@ -45,7 +45,7 @@ export default function SelectLabels() {
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate date fields
@@ -64,35 +64,42 @@ export default function SelectLabels() {
     // Prepare data for backend
     const dataToSend = {
       ...formValues,
-      startDate: formValues.startDate ? formValues.startDate.format('YYYY-MM-DD') : null,
-      endDate: formValues.endDate ? formValues.endDate.format('YYYY-MM-DD') : null,
+      startDate: formValues.startDate
+        ? formValues.startDate.format("YYYY-MM-DD")
+        : null,
+      endDate: formValues.endDate
+        ? formValues.endDate.format("YYYY-MM-DD")
+        : null,
       status: "Registered", // Assuming status is fixed for now
     };
 
     console.log("Data to send to backend:", dataToSend);
-   
-    try {
-   const response = await fetch('/api/project/submit',{
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(dataToSend),
-  });
 
-  const result = await response.json();
-  if(response.ok){
-    console.log(result);
-    setDateError(false);
-    setFormValues({...initialFormValues , startDate:null,endDate:null,name:""});
-    
-  }else{
-    console.log(result.message);
-  }
-    }catch(err){
+    try {
+      const response = await fetch("/api/project/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        console.log(result);
+        setDateError(false);
+        setFormValues({
+          ...initialFormValues,
+          startDate: null,
+          endDate: null,
+          name: "",
+        });
+      } else {
+        console.log(result.message);
+      }
+    } catch (err) {
       console.log(err);
     }
-
   };
 
   return (
@@ -103,8 +110,8 @@ export default function SelectLabels() {
       >
         <div className="sm:flex sm:flex-col sm:gap-3 sm:w-full sm:flex-1">
           <textarea
-            required 
-            name='name'
+            required
+            name="name"
             onChange={handleChange}
             value={formValues.name}
             placeholder="Enter Project Theme"
@@ -125,6 +132,13 @@ export default function SelectLabels() {
                 options={typeOptions}
                 value={formValues.type}
                 label={"Type"}
+              />
+               <FormInput
+                name="project_manager"
+                onChange={handleChange}
+                options={projectManagerOptions}
+                value={formValues.post}
+                label={"Project Manager"}
               />
               <FormInput
                 name="division"
@@ -163,23 +177,27 @@ export default function SelectLabels() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     value={formValues.startDate}
-                    onChange={(date) => handleDateChange('startDate', date)}
+                    onChange={(date) => handleDateChange("startDate", date)}
                     slots={{
                       textField: (params) => (
                         <TextField
                           {...params}
                           placeholder="Y Month Dr"
                           sx={{
-                            '.MuiOutlinedInput-root': {
-                              borderRadius: '10px',
-                              paddingBlock:"0px"
+                            ".MuiOutlinedInput-root": {
+                              borderRadius: "10px",
+                              paddingBlock: "0px",
                             },
-                            '.MuiOutlinedInput-notchedOutline': {
-                              borderRadius: '10px',
-                              paddingBlock:"0px"
+                            ".MuiOutlinedInput-notchedOutline": {
+                              borderRadius: "10px",
+                              paddingBlock: "0px",
                             },
                           }}
-                          value={formValues.startDate ? formValues.startDate.format('YYYY MMMM DD') : ''}
+                          value={
+                            formValues.startDate
+                              ? formValues.startDate.format("YYYY MMMM DD")
+                              : ""
+                          }
                         />
                       ),
                     }}
@@ -191,23 +209,27 @@ export default function SelectLabels() {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     value={formValues.endDate}
-                    onChange={(date) => handleDateChange('endDate', date)}
+                    onChange={(date) => handleDateChange("endDate", date)}
                     slots={{
                       textField: (params) => (
                         <TextField
                           {...params}
                           placeholder="Y Month Dr"
                           sx={{
-                            '.MuiOutlinedInput-root': {
-                              borderRadius: '10px',
-                              paddingBlock:"0px"
+                            ".MuiOutlinedInput-root": {
+                              borderRadius: "10px",
+                              paddingBlock: "0px",
                             },
-                            '.MuiOutlinedInput-notchedOutline': {
-                              borderRadius: '10px',
-                              paddingBlock:"0px"
+                            ".MuiOutlinedInput-notchedOutline": {
+                              borderRadius: "10px",
+                              paddingBlock: "0px",
                             },
                           }}
-                          value={formValues.endDate ? formValues.endDate.format('YYYY MMMM DD') : ''}
+                          value={
+                            formValues.endDate
+                              ? formValues.endDate.format("YYYY MMMM DD")
+                              : ""
+                          }
                         />
                       ),
                     }}
@@ -235,9 +257,11 @@ export default function SelectLabels() {
           >
             Save Project
           </button>
-        {
-        dateError && <p className=" sm:absolute bottom-12 left-2/4  text-red-400 text-sm py-1" >Select The  Correct Dats</p>
-        }
+          {dateError && (
+            <p className=" sm:absolute bottom-12 left-2/4  text-red-400 text-sm py-1">
+              Select The Correct Dats
+            </p>
+          )}
         </div>
       </form>
     </Layout>
